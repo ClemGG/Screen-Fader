@@ -1,0 +1,20 @@
+{
+    "name": "Project.ScreenFader",
+    "rootNamespace": "",
+    "references": [
+        "GUID:98ca23ff9bf8c7a4795bde7ea29e9858"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "WindowsStandalone32",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

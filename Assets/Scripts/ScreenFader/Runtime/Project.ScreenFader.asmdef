@@ -1,9 +1,7 @@
 {
     "name": "Project.ScreenFader",
     "rootNamespace": "",
-    "references": [
-        "GUID:98ca23ff9bf8c7a4795bde7ea29e9858"
-    ],
+    "references": [],
     "includePlatforms": [
         "Editor",
         "WindowsStandalone32",

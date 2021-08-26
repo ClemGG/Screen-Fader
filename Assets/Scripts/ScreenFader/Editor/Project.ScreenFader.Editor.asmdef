@@ -2,8 +2,7 @@
     "name": "Project.ScreenFader.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:b7ba32514f966ed469e5d0663b4120c6",
-        "GUID:98ca23ff9bf8c7a4795bde7ea29e9858"
+        "GUID:b7ba32514f966ed469e5d0663b4120c6"
     ],
     "includePlatforms": [
         "Editor"

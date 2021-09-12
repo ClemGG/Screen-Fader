@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,38 +13,38 @@ namespace Project.ScreenFader
         [Header("Transitions : ")]
         [Space(10)]
 
-        [SerializeField] private ScreenFaderSO m_screenFader;
-        [SerializeField] private TransitionSettingsSO m_firstTransition;
-        [SerializeField] private TransitionSettingsSO m_secondTransition;
+        [SerializeField] private ScreenFaderSO _screenFader;
+        [SerializeField] private TransitionSettingsSO _firstTransition;
+        [SerializeField] private TransitionSettingsSO _secondTransition;
 
         [Space(10)]
         [Header("Texture Blend : ")]
         [Space(10)]
 
-        [SerializeField] private Image m_backgroundImg;
-        [SerializeField] private Texture2D m_firstTexture;
-        [SerializeField] private Texture2D m_secondTexture;
-        [SerializeField] private TransitionSettingsSO m_blendTransition;
+        [SerializeField] private Image _backgroundImg;
+        [SerializeField] private Texture2D _firstTexture;
+        [SerializeField] private Texture2D _secondTexture;
+        [SerializeField] private TransitionSettingsSO _blendTransition;
 
 
         private void Awake()
         {
-            m_backgroundImg.material.SetTexture("_MainTex", m_firstTexture);
+            _backgroundImg.material.SetTexture("_MainTex", _firstTexture);
 
-            m_screenFader.OnTransitionEnded += StartBlend;
-            m_screenFader.StartCompleteFade(this, false, true, Time.unscaledDeltaTime, m_firstTransition, m_secondTransition);
+            _screenFader.OnTransitionEnded += StartBlend;
+            _screenFader.StartCompleteFade(this, false, true, Time.unscaledDeltaTime, _firstTransition, _secondTransition);
         }
 
         private void OnDisable()
         {
-            m_screenFader.OnTransitionEnded -= StartBlend;
+            _screenFader.OnTransitionEnded -= StartBlend;
         }
 
 
         private void StartBlend()
         {
-            m_screenFader.OnTransitionEnded -= StartBlend;
-            m_screenFader.StartBlend(m_backgroundImg, Time.unscaledDeltaTime, m_secondTexture, m_blendTransition);
+            _screenFader.OnTransitionEnded -= StartBlend;
+            _screenFader.StartBlend(_backgroundImg, Time.unscaledDeltaTime, _secondTexture, _blendTransition);
         }
     }
 }

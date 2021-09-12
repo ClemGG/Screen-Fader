@@ -416,14 +416,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3b3c7ec12f7d164598a0f78e9dee0d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_screenFader: {fileID: 11400000, guid: eadebb6f9203ca2458764200773bdd01, type: 2}
-  m_firstTransition: {fileID: 11400000, guid: d2953fbbd28dc1440ac36a9e1d4c8e51, type: 2}
-  m_secondTransition: {fileID: 11400000, guid: 172d8ddf7c692a84bbcacb7d811833f0, type: 2}
-  m_backgroundImg: {fileID: 1805940187}
-  m_backgroundMat: {fileID: 2100000, guid: eaa69c941fc8ad64387c51831a666c6a, type: 2}
-  m_firstTexture: {fileID: 2800000, guid: 537c45cdcc1fa9f49b1600a7ccdf0e27, type: 3}
-  m_secondTexture: {fileID: 2800000, guid: c895f18b11355ac45a261a860e55f43b, type: 3}
-  m_blendTransition: {fileID: 11400000, guid: 6ce8ca5c74976b04aaf1ae2d2a412350, type: 2}
+  _screenFader: {fileID: 11400000, guid: eadebb6f9203ca2458764200773bdd01, type: 2}
+  _firstTransition: {fileID: 11400000, guid: d2953fbbd28dc1440ac36a9e1d4c8e51, type: 2}
+  _secondTransition: {fileID: 11400000, guid: 172d8ddf7c692a84bbcacb7d811833f0, type: 2}
+  _backgroundImg: {fileID: 1805940187}
+  _firstTexture: {fileID: 2800000, guid: c895f18b11355ac45a261a860e55f43b, type: 3}
+  _secondTexture: {fileID: 2800000, guid: 018c32020b55749428ead4daf30460de, type: 3}
+  _blendTransition: {fileID: 11400000, guid: 6ce8ca5c74976b04aaf1ae2d2a412350, type: 2}
 --- !u!20 &1687258584
 Camera:
   m_ObjectHideFlags: 0

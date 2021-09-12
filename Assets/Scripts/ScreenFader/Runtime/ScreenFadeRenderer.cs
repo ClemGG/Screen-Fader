@@ -60,9 +60,10 @@ namespace Project.ScreenFader
 
         private void CleanUp()
         {
-            Destroy(this);
             _screenFader.OnTransitionEnded -= CleanUp;
             _screenFader.OnTransitionEnded -= SetCanvases;
+
+            Destroy(this);
         }
 
 

@@ -27,10 +27,10 @@ namespace Project.ScreenFader.Editor
                 DestroyImmediate(o[i].gameObject);
             }
 
-            _fadeShader = serializedObject.FindProperty("m_fadeShader");
-            _blendShader = serializedObject.FindProperty("m_blendShader");
-            _params = serializedObject.FindProperty("m_params");
-            _maskValue = serializedObject.FindProperty("m_maskValue");
+            _fadeShader = serializedObject.FindProperty("_fadeShader");
+            _blendShader = serializedObject.FindProperty("_blendShader");
+            _params = serializedObject.FindProperty("_params");
+            _maskValue = serializedObject.FindProperty("_maskValue");
 
 
             //Pour visualiser les effets, on crée une caméra par code sur laquelle on appelle OnRenderImage

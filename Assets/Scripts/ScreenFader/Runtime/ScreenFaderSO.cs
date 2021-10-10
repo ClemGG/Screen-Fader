@@ -48,16 +48,19 @@ namespace Project.ScreenFader
         private bool _enabled;
         private Camera _currentCam;
 
+        //Contient toutes les caméras de la scène. Celle qui fera office de Camera.current
+        //sera celle avec la depth la plus élevée.
+        private Camera[] allCamsInScene;
 
         #endregion
 
 
         #region Actions
 
-        public Action OnTransitionStarted;          //Quand le fade démarre
-        public Action<float> OnTransitionUpdated;   //Quand le fade met à jour m_maskValue (passée en paramètre pour que les autres scripts puissent faire leurs changements)
-        public Action OnTransitionEnded;            //Quand le fade se termine
-        public Action OnCompleteTransitionMiddle;   //Quand le double fade réalise son premier fade
+        public Action OnTransitionStarted { get; set; }         //Quand le fade démarre
+        public Action<float> OnTransitionUpdated { get; set; }  //Quand le fade met à jour m_maskValue (passée en paramètre pour que les autres scripts puissent faire leurs changements)
+        public Action OnTransitionEnded { get; set; }           //Quand le fade se termine
+        public Action OnCompleteTransitionMiddle { get; set; }  //Quand le double fade réalise son premier fade
 
         #endregion
 
@@ -90,8 +93,8 @@ namespace Project.ScreenFader
             //Récupère le shader pour les fondus en noir et avec mask
             //(le fade transparent est géré par les scripts abonnés aux delegates pour récupérer la maskValue)
 
-            if (!_blendShader) _blendShader = Shader.Find("Custom/Effects/UI/BlendTexture");
-            if (!_fadeShader) _fadeShader = Shader.Find("Custom/Effects/UI/ScreenTransitionImageEffect");
+            if(!_blendShader) _blendShader = Shader.Find("Custom/Effects/UI/BlendTexture");
+            if(!_fadeShader) _fadeShader = Shader.Find("Custom/Effects/UI/ScreenTransitionImageEffect");
 
             // Disable the image effect if the shader can't
             // run on the users graphics card
@@ -114,6 +117,17 @@ namespace Project.ScreenFader
 
         #region Screen Fader
 
+        public void GetAllCamerasInScene()
+        {
+            allCamsInScene = FindObjectsOfType<Camera>(true);
+        }
+
+        public void GetCurrentCamera()
+        {
+            Array.Sort(allCamsInScene);
+            _currentCam = allCamsInScene[allCamsInScene.Length - 1];
+        }
+
 
         /// <summary>
         /// Crée une Coroutine de fade sur le GameObject en paramètre. (le ScreenFader étant un SO, il doit passer la Coroutine à un MonoBehaviour)
@@ -125,7 +139,8 @@ namespace Project.ScreenFader
         /// <param name="parameters">Les paramètres de transition. Si null, on utilise les paramètres déjà assignés.</param>
         public Coroutine StartFade(MonoBehaviour target, bool show, bool shouldDestroyRendererOnEnded, float deltaTime, TransitionSettingsSO parameters = null)
         {
-            _currentCam = Camera.current;
+            //_currentCam = Camera.current;
+            GetCurrentCamera();
             ScreenFadeRenderer sfr = _currentCam.gameObject.GetComponent<ScreenFadeRenderer>();
             if (!sfr)
             {
@@ -139,9 +154,9 @@ namespace Project.ScreenFader
 
             return target.StartCoroutine(FadeCo(show, deltaTime));
         }
-
-
-
+        
+            
+            
         /// <summary>
         /// Crée une Coroutine de fade sur le GameObject en paramètre. (le ScreenFader étant un SO, il doit passer la Coroutine à un MonoBehaviour)
         /// </summary>
@@ -153,7 +168,8 @@ namespace Project.ScreenFader
         /// <param name="endParams">Les paramètres de la 2è transition. Si null, on utilise les paramètres déjà assignés.</param>
         public Coroutine StartCompleteFade(MonoBehaviour target, bool show, bool shouldDestroyRendererOnEnded, float deltaTime, TransitionSettingsSO startParams = null, TransitionSettingsSO endParams = null)
         {
-            _currentCam = Camera.current;
+            //_currentCam = Camera.current;
+            GetCurrentCamera();
             ScreenFadeRenderer sfr = _currentCam.gameObject.GetComponent<ScreenFadeRenderer>();
             if (!sfr)
             {
@@ -301,7 +317,6 @@ namespace Project.ScreenFader
 
 
 
-
             OnTransitionEnded?.Invoke();
         }
 
@@ -352,6 +367,7 @@ namespace Project.ScreenFader
 
 
         #endregion
+
 
 
 

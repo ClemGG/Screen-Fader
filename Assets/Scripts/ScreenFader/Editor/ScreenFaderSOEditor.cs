@@ -2,6 +2,8 @@ using Project.Enums;
 using UnityEditor;
 using UnityEngine;
 
+using static Project.Utilities.ValueTypes.Arrays;
+
 namespace Project.ScreenFader.Editor
 {
     [CustomEditor(typeof(ScreenFaderSO))]
@@ -21,16 +23,17 @@ namespace Project.ScreenFader.Editor
 
         private void OnEnable()
         {
-            Component[] o = FindObjectsOfType<ScreenFadeRenderer>();
-            for (int i = 0; i < o.Length; i++)
-            {
-                DestroyImmediate(o[i].gameObject);
-            }
-
             _fadeShader = serializedObject.FindProperty("_fadeShader");
             _blendShader = serializedObject.FindProperty("_blendShader");
             _params = serializedObject.FindProperty("_params");
             _maskValue = serializedObject.FindProperty("_maskValue");
+
+
+
+            if (Application.isPlaying) return;
+
+            Component[] o = FindObjectsOfType<ScreenFadeRenderer>();
+            DestroyAllIn(o);
 
 
             //Pour visualiser les effets, on crée une caméra par code sur laquelle on appelle OnRenderImage
@@ -77,6 +80,7 @@ namespace Project.ScreenFader.Editor
             {
                 serializedObject.ApplyModifiedProperties();
             }
+
         }
     }
 }

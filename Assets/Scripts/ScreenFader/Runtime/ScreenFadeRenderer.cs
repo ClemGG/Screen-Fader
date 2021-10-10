@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 /* Le ScreenFader étant un SO, il ne peut pas appeler OnRenderImage pour exécuter le fade.
- * Quand on passe la caméra sur laquelle afficher l'effet, on lui ajoute un ScreenFadeRenderer
+ * Quand on ajoute ce Component sur la Camera.current, on lui ajoute un ScreenFadeRenderer
  * pour réaliser le OnRenderImage spécifié dans le ScreenFader.
  * Une fois la Coroutine du SO terminée, on peut détruire ce Component.
  * 
@@ -15,7 +15,6 @@ using UnityEngine;
 
 namespace Project.ScreenFader
 {
-
     [RequireComponent(typeof(Camera))]
     [ExecuteInEditMode]
     public class ScreenFadeRenderer : MonoBehaviour
@@ -60,10 +59,9 @@ namespace Project.ScreenFader
 
         private void CleanUp()
         {
+            Destroy(this);
             _screenFader.OnTransitionEnded -= CleanUp;
             _screenFader.OnTransitionEnded -= SetCanvases;
-
-            Destroy(this);
         }
 
 

@@ -7,6 +7,7 @@ using System.Collections;
 using Project.Enums;
 using System;
 using UnityEngine.UI;
+using System.Linq;
 
 
 
@@ -41,6 +42,7 @@ namespace Project.ScreenFader
         [SerializeField] private Shader _blendShader;
         [SerializeField] private TransitionSettingsSO _params;
         [SerializeField, Range(0f, 2f)] private float _maskValue = 1f; //Mis à 1 pour qu'on puisse voir la scène
+        public float MaskValue { get => _maskValue; set => _maskValue = value; }
 
 
         private Material _fadeMaterial;
@@ -227,7 +229,7 @@ namespace Project.ScreenFader
             OnTransitionStarted?.Invoke();
 
             //La valeur de départ du masque pour montrer ou cacher la scène au début de la transition
-            float t = _maskValue = show ? 0f : Mathf.Lerp(1f, 2f, _params.MaskSpread);
+            float t = MaskValue = show ? 0f : Mathf.Lerp(1f, 2f, _params.MaskSpread);
 
             //Si on veut montrer la scène, on augmente m_maskValue, sinon on la diminue
             float coef = show ? 1f : -1f;
@@ -236,9 +238,9 @@ namespace Project.ScreenFader
             {
                 t += deltaTime * _params.Speed * coef;
                 float value = _params.FadeCurve.Evaluate(t);
-                _maskValue = Mathf.Lerp(value, value * 2f, _params.MaskSpread); //Pour le fade out, on ajoute le spread pour compenser l'ajout de noir sur le masques
+                MaskValue = Mathf.Lerp(value, value * 2f, _params.MaskSpread); //Pour le fade out, on ajoute le spread pour compenser l'ajout de noir sur le masques
 
-                OnTransitionUpdated?.Invoke(_maskValue);
+                OnTransitionUpdated?.Invoke(MaskValue);
 
                 yield return null;
             }
@@ -266,7 +268,7 @@ namespace Project.ScreenFader
                 _params = startParams;
 
             //La valeur de départ du masque pour montrer ou cacher la scène au début de la transition
-            float t = _maskValue = show ? 0f : Mathf.Lerp(1f, 2f, _params.MaskSpread);
+            float t = MaskValue = show ? 0f : Mathf.Lerp(1f, 2f, _params.MaskSpread);
 
             //Si on veut montrer la scène, on augmente m_maskValue, sinon on la diminue
             float coef = show ? 1f : -1f;
@@ -275,9 +277,9 @@ namespace Project.ScreenFader
             {
                 t += deltaTime * _params.Speed * coef;
                 float value = _params.FadeCurve.Evaluate(t);
-                _maskValue = Mathf.Lerp(value, value * 2f, _params.MaskSpread); //Pour le fade out, on ajoute le spread pour compenser l'ajout de noir sur le masques
+                MaskValue = Mathf.Lerp(value, value * 2f, _params.MaskSpread); //Pour le fade out, on ajoute le spread pour compenser l'ajout de noir sur le masques
 
-                OnTransitionUpdated?.Invoke(_maskValue);
+                OnTransitionUpdated?.Invoke(MaskValue);
 
                 yield return null;
             }
@@ -300,7 +302,7 @@ namespace Project.ScreenFader
             show = !show;
 
             //La valeur de départ du masque pour montrer ou cacher la scène au début de la transition
-            t = _maskValue = show ? 0f : Mathf.Lerp(1f, 2f, _params.MaskSpread);
+            t = MaskValue = show ? 0f : Mathf.Lerp(1f, 2f, _params.MaskSpread);
 
             //Si on veut montrer la scène, on augmente m_maskValue, sinon on la diminue
             coef = show ? 1f : -1f;
@@ -309,9 +311,9 @@ namespace Project.ScreenFader
             {
                 t += deltaTime * _params.Speed * coef;
                 float value = _params.FadeCurve.Evaluate(t);
-                _maskValue = Mathf.Lerp(value, value * 2f, _params.MaskSpread); //Pour le fade out, on ajoute le spread pour compenser l'ajout de noir sur le masques
+                MaskValue = Mathf.Lerp(value, value * 2f, _params.MaskSpread); //Pour le fade out, on ajoute le spread pour compenser l'ajout de noir sur le masques
 
-                OnTransitionUpdated?.Invoke(_maskValue);
+                OnTransitionUpdated?.Invoke(MaskValue);
 
                 yield return null;
             }
@@ -336,17 +338,17 @@ namespace Project.ScreenFader
 
 
             //La valeur de départ du masque pour montrer ou cacher la scène au début de la transition
-            float t = _maskValue = 0f;
+            float t = MaskValue = 0f;
 
 
             while (t < 1f)
             {
                 t += deltaTime * _params.Speed;
-                _maskValue = _params.FadeCurve.Evaluate(t);
+                MaskValue = _params.FadeCurve.Evaluate(t);
 
-                _blendMaterial.SetFloat("_Blend", _maskValue);
+                _blendMaterial.SetFloat("_Blend", MaskValue);
 
-                OnTransitionUpdated?.Invoke(_maskValue);
+                OnTransitionUpdated?.Invoke(MaskValue);
 
                 yield return null;
             }
@@ -415,7 +417,7 @@ namespace Project.ScreenFader
             }
 
             Material.SetColor("_MaskColor", _params.FadeColor);
-            Material.SetFloat("_MaskValue", _maskValue);
+            Material.SetFloat("_MaskValue", MaskValue);
             Material.SetFloat("_MaskSpread", _params.MaskSpread);
             Material.SetFloat("_FadeMode", (float)_params.TransitionType);
             Material.SetTexture("_MainTex", source);

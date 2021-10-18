@@ -31,8 +31,13 @@ namespace Project.ScreenFader
         {
             _backgroundImg.material.SetTexture("_MainTex", _firstTexture);
 
+
+            //On récupère toutes les caméras de la scène pour pouvoir récupérer celle en cours d'utilisation pour les transitions
+            _screenFader.GetAllCamerasInScene();
+
             _screenFader.OnTransitionEnded += StartBlend;
             _screenFader.StartCompleteFade(this, false, true, Time.unscaledDeltaTime, _firstTransition, _secondTransition);
+
         }
 
         private void OnDisable()
